@@ -1,0 +1,27 @@
+{
+  "name": "Trends",
+  "version": "0.0.1",
+  "description": "Simple trend slider",
+  "authors": [
+    "srcres"
+  ],
+  "license": "GPv2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/vendor"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "underscore": "~1.7.0",
+    "backbone": "1.1.2",
+    "marionette": "~2.1.0",
+    "requirejs": "~2.1.15",
+    "bootstrap": "~3.2.0",
+    "almond": "~0.3.0",
+    "requirejs-text": "~2.0.12"
+  },
+  "private": true,
+  "main": "Gruntfile.js"
+}

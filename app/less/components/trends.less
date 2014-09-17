@@ -1,0 +1,53 @@
+#trends {
+  &.container-fluid {
+    height: 100%;
+  }
+
+  .row {
+    height: 100%;
+    margin: 0;
+  }
+
+  .cell {
+    position: relative;
+    float: left;
+    overflow: hidden;
+
+    .trends-cell {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      &.horizontal {
+        width: 200%;
+        height: 100%;
+
+        .trend {
+          width: 50%;
+          height: 100%;
+          display: inline-block;
+        }
+      }
+
+      &.vertical {
+        width: 100%;
+        height: 200%;
+
+        .trend {
+          width: 100%;
+          height: 50%;
+        }
+      }
+
+      .trend {
+        width: 100%;
+        height: 100%;
+
+        h1 {
+          height: 100%;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
