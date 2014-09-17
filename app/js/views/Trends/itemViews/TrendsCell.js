@@ -5,7 +5,7 @@ define([
 ], function(Marionette, appConfig, TrendItemView) {
   var TrendsCell = Marionette.ItemView.extend({
     template: _.template(''),
-    className: 'trends-cell horizontal',
+    className: 'trends-cell',
 
     initialize: function() {
       this.render();
@@ -58,120 +58,49 @@ define([
     },
 
     createTrend: function() {
-      var trendModel = _.sample(this.collection.where({ visible: false })),
+      var trendModel = this.collection.next(),
           trendItemView = new TrendItemView({ model: trendModel });
-
-      trendModel.set('visible', true);
 
       return trendItemView;
     },
 
     updateTrendsCell: function() {
-      var translate3d = '0,0,0';
-
       if (this.current_trend) {
-        this.current_trend.model.set('visible', false);
         this.current_trend.destroy();
       }
 
       this.current_trend = this.new_trend;
 
-      this.$el.removeClass('horizontal vertical');
-      this.$el.css({
-        transform: 'translate3d(' + translate3d + ')',
-        '-webkit-transform': 'translate3d(' + translate3d + ')',
-        transition: 'transform 0s',
-        '-webkit-transition': '-webkit-transform 0s'
-      });
+      this.$el.removeClass('horizontal vertical slide right left up down');
       this.startTimer();
     },
 
     slideRight: function() {
-      var pretranslate3d = -this.$el.width() * 0.5 + 'px,0,0',
-          translate3d = '0,0,0';
-
-      this.$el
-        .removeClass('vertical')
-        .addClass('horizontal');
-
       this.new_trend = this.createTrend();
-      this.$el.prepend(this.new_trend.$el);
-
-      this.$el.css({
-        transform: 'translate3d(' + pretranslate3d + ')',
-        '-webkit-transform': 'translate3d(' + pretranslate3d + ')'
-      });
-
-      _.defer(function() {
-        this.$el.css({
-          transform: 'translate3d(' + translate3d + ')',
-          '-webkit-transform': 'translate3d(' + translate3d + ')',
-           transition: 'transform 1s',
-          '-webkit-transition': '-webkit-transform 1s'
-        });
-      }.bind(this));
+      this.$el
+        .prepend(this.new_trend.$el)
+        .addClass('horizontal slide right');
     },
 
     slideLeft: function() {
-      var translate3d = -this.$el.width() + 'px,0,0';
-
-      this.$el
-        .removeClass('vertical')
-        .addClass('horizontal');
-
       this.new_trend = this.createTrend();
-      this.$el.append(this.new_trend.$el);
-
-      this.$el.css({
-        transform: 'translate3d(' + translate3d + ')',
-        '-webkit-transform': 'translate3d(' + translate3d + ')',
-         transition: 'transform 1s',
-        '-webkit-transition': '-webkit-transform 1s'
-      });
+      this.$el
+        .append(this.new_trend.$el)
+        .addClass('horizontal slide left');
     },
 
     slideUp: function() {
-      var translate3d = '0,' + -this.$el.height() + 'px,0';
-
-      this.$el
-        .removeClass('horizontal')
-        .addClass('vertical');
-
       this.new_trend = this.createTrend();
-      this.$el.append(this.new_trend.$el);
-
-      this.$el.css({
-        transform: 'translate3d(' + translate3d + ')',
-        '-webkit-transform': 'translate3d(' + translate3d + ')',
-         transition: 'transform 1s',
-        '-webkit-transition': '-webkit-transform 1s'
-      });
+      this.$el
+        .append(this.new_trend.$el)
+        .addClass('vertical slide up');
     },
 
     slideDown: function() {
-      var pretranslate3d = '0,' + -this.$el.height() + 'px,0',
-          translate3d = '0,0,0';
-
+     this.new_trend = this.createTrend();
       this.$el
-        .removeClass('horizontal')
-        .addClass('vertical');
-
-      this.new_trend = this.createTrend();
-      this.$el.prepend(this.new_trend.$el);
-
-      this.$el.css({
-        transform: 'translate3d(' + pretranslate3d + ')',
-        '-webkit-transform': 'translate3d(' + pretranslate3d + ')'
-      });
-
-      _.defer(function() {
-        this.$el.css({
-          transform: 'translate3d(' + translate3d + ')',
-          '-webkit-transform': 'translate3d(' + translate3d + ')',
-           transition: 'transform 1s',
-          '-webkit-transition': '-webkit-transform 1s'
-        });
-      }.bind(this));
+        .prepend(this.new_trend.$el)
+        .addClass('vertical slide down');
     },
 
     onRender: function() {

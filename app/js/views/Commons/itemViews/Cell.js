@@ -20,7 +20,7 @@ define([
     },
 
     onRender: function() {
-      var trendsCellItemView = new TrendsCellItemView({ collection: App.mock });
+      var trendsCellItemView = new TrendsCellItemView({ collection: App.trends });
 
       this.$el.html(trendsCellItemView.$el);
       this.onChangeSize();

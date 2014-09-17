@@ -3,15 +3,16 @@ define([
   'marionette',
   'app',
   'mock',
+  'collections/Trends',
   'views/Commons/collectionViews/Cells'
-], function(Backbone, Marionette, App, mock, CellsCollectionView) {
+], function(Backbone, Marionette, App, mock, TrendsCollection, CellsCollectionView) {
   var Trends = Marionette.Controller.extend({
     start: function(region) {
       if (!this.cellsCollectionView) {
         this.region = region;
         this.cellsCollectionView = new CellsCollectionView({ collection: new Backbone.Collection() });
         this.region.show(this.cellsCollectionView);
-        App.mock = new Backbone.Collection(mock);
+        App.trends = new TrendsCollection(_.shuffle(mock));
         App.on('change:grid', this.onChangeGrid, this);
       }
     },

@@ -6209,19 +6209,47 @@ body .container-fluid {
   position: absolute;
   width: 100%;
   height: 100%;
+  transform: none;
+  -webkit-transform: none;
+  transition: none;
+  -webkit-transition: none;
+}
+#trends .cell .trends-cell.slide {
+  transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  -webkit-transition: -webkit-transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
 }
 #trends .cell .trends-cell.horizontal {
   width: 200%;
   height: 100%;
 }
+#trends .cell .trends-cell.horizontal.right {
+  right: 0;
+  transform: translateX(50%);
+  -webkit-transform: translateX(50%);
+}
+#trends .cell .trends-cell.horizontal.left {
+  left: 0;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+}
 #trends .cell .trends-cell.horizontal .trend {
+  display: inline-block;
   width: 50%;
   height: 100%;
-  display: inline-block;
 }
 #trends .cell .trends-cell.vertical {
   width: 100%;
   height: 200%;
+}
+#trends .cell .trends-cell.vertical.up {
+  top: 0;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
+#trends .cell .trends-cell.vertical.down {
+  bottom: 0;
+  transform: translateY(50%);
+  -webkit-transform: translateY(50%);
 }
 #trends .cell .trends-cell.vertical .trend {
   width: 100%;
