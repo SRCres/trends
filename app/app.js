@@ -20349,10 +20349,12 @@ define('js/controllers/menu.js',[
 define('mock',[],function() {
   var mock = [],
       categories = [
-        'success',
-        'info',
-        'warning',
-        'danger'
+        'arts',
+        'entertainment',
+        'geography',
+        'history',
+        'science',
+        'sports'
       ];
 
   for (var i = 0; i < 1000; i++) {
@@ -20372,19 +20374,19 @@ define('collections/Trends',[
     pointer: 0,
 
     next: function() {
-      if (this.pointer >= this.length) {
+      if (++this.pointer >= this.length) {
         this.pointer = 0;
       }
 
-      return this.at(this.pointer++);
+      return this.at(this.pointer);
     },
 
     prev: function() {
-      if (this.pointer <= 0) {
+      if (--this.pointer <= 0) {
         this.pointer = this.length - 1;
       }
 
-      return this.at(this.pointer--);
+      return this.at(this.pointer);
     }
   });
 
@@ -20446,7 +20448,7 @@ define('views/Trends/itemViews/TrendsCell',[
     },
 
     switchTrend: function() {
-      var translate3d, translate;
+      this.new_trend = this.createTrend();
 
       switch(_.random(3)) {
         case 0: // slide right
@@ -20490,28 +20492,24 @@ define('views/Trends/itemViews/TrendsCell',[
     },
 
     slideRight: function() {
-      this.new_trend = this.createTrend();
       this.$el
         .prepend(this.new_trend.$el)
         .addClass('horizontal slide right');
     },
 
     slideLeft: function() {
-      this.new_trend = this.createTrend();
       this.$el
         .append(this.new_trend.$el)
         .addClass('horizontal slide left');
     },
 
     slideUp: function() {
-      this.new_trend = this.createTrend();
       this.$el
         .append(this.new_trend.$el)
         .addClass('vertical slide up');
     },
 
     slideDown: function() {
-     this.new_trend = this.createTrend();
       this.$el
         .prepend(this.new_trend.$el)
         .addClass('vertical slide down');
@@ -20534,17 +20532,14 @@ define('views/Commons/itemViews/Cell',[
 ], function(Marionette, appConfig, App, TrendsCellItemView) {
   var Cell = Marionette.ItemView.extend({
     template: _.template(''),
-    className: 'cell',
 
     modelEvents: {
-      'change width, height': 'onChangeSize'
+      'change size': 'onChangeSize'
     },
 
     onChangeSize: function() {
-      this.$el.css({
-        width: this.model.get('width'),
-        height: this.model.get('height')
-      });
+      this.$el.removeClass();
+      this.$el.addClass('cell cell-' + App.size.cols + '-' + App.size.rows);
     },
 
     onRender: function() {
@@ -20590,12 +20585,14 @@ define('js/controllers/trends.js',[
     onChangeGrid: function() {
       var cells = [];
 
-      for (var i = 0; i < App.size.rows; i++) {
-        for (var j = 0; j < App.size.cols; j++) {
+      for (var i = 0; i < App.size.cols; i++) {
+        for (var j = 0; j < App.size.rows; j++) {
           cells.push({
-            id: '' + i + j,
-            width: 100 / App.size.cols + '%',
-            height: 100 / App.size.rows + '%'
+            id: '' + i + '-' + j,
+            size: {
+              cols: App.size.cols,
+              rows: App.size.rows
+            }
           });
         }
       }

@@ -1,0 +1,34 @@
+.font-size(@w, @h, @i, @j) when (@w =< @h) {
+  font-size: (176px * 1 / @i);
+}
+
+.font-size(@w, @h, @i, @j) when (@w > @h) {
+  font-size: (176px * 1 / @j);
+}
+
+.width(@i) {
+  @w: 100% / @i;
+}
+
+.height(@j) {
+  @h: 100% / @j;
+}
+
+.generate-columns(6);
+
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+  .generate-rows(6, @i);
+  .generate-columns(@n, (@i + 1));
+}
+
+.generate-rows(@m, @i, @j: 1) when (@j =< @m) {
+  .cell-@{i}-@{j} {
+    .width(@i);
+    .height(@j);
+    width: @w;
+    height: @h;
+    .font-size(@w, @h, @i, @j);
+  }
+
+  .generate-rows(@m, @i, (@j + 1));
+}

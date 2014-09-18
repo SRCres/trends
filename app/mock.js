@@ -1,10 +1,12 @@
 define(function() {
   var mock = [],
       categories = [
-        'success',
-        'info',
-        'warning',
-        'danger'
+        'arts',
+        'entertainment',
+        'geography',
+        'history',
+        'science',
+        'sports'
       ];
 
   for (var i = 0; i < 1000; i++) {

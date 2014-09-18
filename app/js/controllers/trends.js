@@ -20,12 +20,14 @@ define([
     onChangeGrid: function() {
       var cells = [];
 
-      for (var i = 0; i < App.size.rows; i++) {
-        for (var j = 0; j < App.size.cols; j++) {
+      for (var i = 0; i < App.size.cols; i++) {
+        for (var j = 0; j < App.size.rows; j++) {
           cells.push({
-            id: '' + i + j,
-            width: 100 / App.size.cols + '%',
-            height: 100 / App.size.rows + '%'
+            id: '' + i + '-' + j,
+            size: {
+              cols: App.size.cols,
+              rows: App.size.rows
+            }
           });
         }
       }

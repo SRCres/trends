@@ -32,7 +32,7 @@ define([
     },
 
     switchTrend: function() {
-      var translate3d, translate;
+      this.new_trend = this.createTrend();
 
       switch(_.random(3)) {
         case 0: // slide right
@@ -76,28 +76,24 @@ define([
     },
 
     slideRight: function() {
-      this.new_trend = this.createTrend();
       this.$el
         .prepend(this.new_trend.$el)
         .addClass('horizontal slide right');
     },
 
     slideLeft: function() {
-      this.new_trend = this.createTrend();
       this.$el
         .append(this.new_trend.$el)
         .addClass('horizontal slide left');
     },
 
     slideUp: function() {
-      this.new_trend = this.createTrend();
       this.$el
         .append(this.new_trend.$el)
         .addClass('vertical slide up');
     },
 
     slideDown: function() {
-     this.new_trend = this.createTrend();
       this.$el
         .prepend(this.new_trend.$el)
         .addClass('vertical slide down');

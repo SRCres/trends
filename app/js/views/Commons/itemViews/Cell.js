@@ -6,17 +6,14 @@ define([
 ], function(Marionette, appConfig, App, TrendsCellItemView) {
   var Cell = Marionette.ItemView.extend({
     template: _.template(''),
-    className: 'cell',
 
     modelEvents: {
-      'change width, height': 'onChangeSize'
+      'change size': 'onChangeSize'
     },
 
     onChangeSize: function() {
-      this.$el.css({
-        width: this.model.get('width'),
-        height: this.model.get('height')
-      });
+      this.$el.removeClass();
+      this.$el.addClass('cell cell-' + App.size.cols + '-' + App.size.rows);
     },
 
     onRender: function() {
