@@ -5,15 +5,15 @@
     <span class="icon-bar"></span>
   </button>
 </div>
-<div class="collapse navbar-collapse" id="avbar-collapse">
+<div class="collapse navbar-collapse" id="navbar-collapse">
   <ul class="nav navbar-nav">
     <li class="active">
-      <div class="btn btn-link btn-grid"><span class="glyphicon glyphicon-th"></span></div>
+      <div class="btn btn-link navbar-btn btn-grid"><span class="glyphicon glyphicon-th"></span></div>
       <div class="popover-content hidden">
         <div class="btn-group">
         <% for (var i = 1; i <= grid.max_rows; i++) { %>
           <% for (var j = 1; j <= grid.max_columns; j++) { %>
-        <button type="button" id="<%= i %><%= j %>" class="btn btn-default btn-xs cell"></button>
+        <a href="#home/<%= j %>/<%= i %>" data-col="<%= j %>" data-row="<%= i %>" class="btn btn-default btn-xs cell"></a>
           <% } %>
         <% } %>
       </div>

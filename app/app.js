@@ -20261,7 +20261,7 @@ define('text',['module'], function (module) {
 });
 
 
-define('text!templates/Commons/menu.html',[],function () { return '<div class="navbar-header">\n  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">\n    <span class="icon-bar"></span>\n    <span class="icon-bar"></span>\n    <span class="icon-bar"></span>\n  </button>\n</div>\n<div class="collapse navbar-collapse" id="avbar-collapse">\n  <ul class="nav navbar-nav">\n    <li class="active">\n      <div class="btn btn-link btn-grid"><span class="glyphicon glyphicon-th"></span></div>\n      <div class="popover-content hidden">\n        <div class="btn-group">\n        <% for (var i = 1; i <= grid.max_rows; i++) { %>\n          <% for (var j = 1; j <= grid.max_columns; j++) { %>\n        <button type="button" id="<%= i %><%= j %>" class="btn btn-default btn-xs cell"></button>\n          <% } %>\n        <% } %>\n      </div>\n    </li>\n  </ul>\n</div>';});
+define('text!templates/Commons/menu.html',[],function () { return '<div class="navbar-header">\n  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">\n    <span class="icon-bar"></span>\n    <span class="icon-bar"></span>\n    <span class="icon-bar"></span>\n  </button>\n</div>\n<div class="collapse navbar-collapse" id="navbar-collapse">\n  <ul class="nav navbar-nav">\n    <li class="active">\n      <div class="btn btn-link navbar-btn btn-grid"><span class="glyphicon glyphicon-th"></span></div>\n      <div class="popover-content hidden">\n        <div class="btn-group">\n        <% for (var i = 1; i <= grid.max_rows; i++) { %>\n          <% for (var j = 1; j <= grid.max_columns; j++) { %>\n        <a href="#home/<%= j %>/<%= i %>" data-col="<%= j %>" data-row="<%= i %>" class="btn btn-default btn-xs cell"></a>\n          <% } %>\n        <% } %>\n      </div>\n    </li>\n  </ul>\n</div>';});
 
 define('views/Commons/itemViews/Menu',[
   'jquery',
@@ -20281,7 +20281,7 @@ define('views/Commons/itemViews/Menu',[
 
     onOverCell: function(evt) {
       var cell = $(evt.currentTarget),
-          column = +cell.attr('id').substr(1);
+          column = +cell.data('col');
 
       $('.popover > .popover-content .cell').removeClass('btn-primary');
 
@@ -20291,8 +20291,7 @@ define('views/Commons/itemViews/Menu',[
       }
     },
 
-    onClickCell: function(evt) {
-      this.trigger('grid:size', $(evt.currentTarget).attr('id'));
+    onClickCell: function() {
       this.ui.btn_grid.popover('hide');
     },
 
@@ -20309,13 +20308,16 @@ define('views/Commons/itemViews/Menu',[
         this.ui.btn_grid.on('shown.bs.popover', function() {
           $('.popover > .popover-content .cell')
             .on('mouseover', this.onOverCell.bind(this))
-            .on('click', this.onClickCell.bind(this));
+            .one('click', this.onClickCell.bind(this));
         }.bind(this));
       }.bind(this));
     },
 
     serializeData: function() {
-      return appConfig.grid;
+      return {
+        max_columns: appConfig.grid.max_columns,
+        max_rows: appConfig.grid.max_rows
+      };
     }
   });
 
@@ -20332,12 +20334,6 @@ define('js/controllers/menu.js',[
         this.region = region;
 
         this.menuItemView = new MenuItemView();
-        this.menuItemView.on('grid:size', function(size) {
-          var rows = size.substr(0, 1) || 1,
-              cols = size.substr(1) || 1;
-
-          Backbone.history.navigate('home/' + rows + '/' + cols, { trigger: true });
-        });
 
         this.region.show(this.menuItemView);
       }
@@ -20619,17 +20615,17 @@ define('controllers/appController',[
       options.controller.start(options.params);
     },
 
-    showHome: function(rows, cols) {
-      if (rows < 1) {
-        rows = 1;
-      } if (rows > appConfig.max_rows) {
-        rows = appConfig.grid.max_rows;
-      }
-
+    showHome: function(cols, rows) {
       if (cols < 1) {
         cols = 1;
       } if (cols > appConfig.max_columns) {
         cols = appConfig.grid.max_columns;
+      }
+      
+      if (rows < 1) {
+        rows = 1;
+      } if (rows > appConfig.max_rows) {
+        rows = appConfig.grid.max_rows;
       }
 
       App.size = {

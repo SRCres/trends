@@ -6204,7 +6204,7 @@ body .container-fluid {
   width: 112px;
   padding: 6px 8px;
 }
-#menu .popover .popover-content button.btn {
+#menu .popover .popover-content a.btn {
   width: 15px;
   height: 15px;
   margin: 1px 1px 0 0;

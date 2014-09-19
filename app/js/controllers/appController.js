@@ -14,17 +14,17 @@ define([
       options.controller.start(options.params);
     },
 
-    showHome: function(rows, cols) {
-      if (rows < 1) {
-        rows = 1;
-      } if (rows > appConfig.max_rows) {
-        rows = appConfig.grid.max_rows;
-      }
-
+    showHome: function(cols, rows) {
       if (cols < 1) {
         cols = 1;
       } if (cols > appConfig.max_columns) {
         cols = appConfig.grid.max_columns;
+      }
+      
+      if (rows < 1) {
+        rows = 1;
+      } if (rows > appConfig.max_rows) {
+        rows = appConfig.grid.max_rows;
       }
 
       App.size = {

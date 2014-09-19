@@ -16,7 +16,7 @@ define([
 
     onOverCell: function(evt) {
       var cell = $(evt.currentTarget),
-          column = +cell.attr('id').substr(1);
+          column = +cell.data('col');
 
       $('.popover > .popover-content .cell').removeClass('btn-primary');
 
@@ -26,8 +26,7 @@ define([
       }
     },
 
-    onClickCell: function(evt) {
-      this.trigger('grid:size', $(evt.currentTarget).attr('id'));
+    onClickCell: function() {
       this.ui.btn_grid.popover('hide');
     },
 
@@ -44,13 +43,16 @@ define([
         this.ui.btn_grid.on('shown.bs.popover', function() {
           $('.popover > .popover-content .cell')
             .on('mouseover', this.onOverCell.bind(this))
-            .on('click', this.onClickCell.bind(this));
+            .one('click', this.onClickCell.bind(this));
         }.bind(this));
       }.bind(this));
     },
 
     serializeData: function() {
-      return appConfig.grid;
+      return {
+        max_columns: appConfig.grid.max_columns,
+        max_rows: appConfig.grid.max_rows
+      };
     }
   });
 
